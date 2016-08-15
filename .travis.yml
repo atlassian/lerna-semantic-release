@@ -6,7 +6,7 @@ cache:
 notifications:
   email: false
 node_js:
-  - "5"
+  - "stable"
 before_script:
   - npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN -q
   - npm prune
