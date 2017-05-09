@@ -191,6 +191,116 @@ describe('pre with substring packages', function () {
   });
 });
 
+describe('pre with dependant packages', function() {
+  beforeEach(function () {
+    var packageVersions = {
+      versions: {
+        'a': '1.0.0',
+        'b': '1.0.0',
+        'c': '1.0.0'
+      },
+      latestVersions: {
+        'a': {
+          version: '1.0.0',
+          gitHead: 'BREAK'
+        },
+        'b': {
+          version: '1.0.0',
+          gitHead: 'BREAK'
+        },
+        'c': {
+          version: '1.0.0',
+          gitHead: 'BREAK'
+        }
+      }
+    };
+
+    io.mock({
+      fs: {
+        'packages': {
+          'a': {
+            'index.js': 'A',
+            'package.json': JSON.stringify({
+              name: 'a',
+              version: '1.0.0',
+              dependencies: { b: '^1.0.0' }
+            })
+          },
+          'b': {
+            'index.js': 'B',
+            'package.json': JSON.stringify({name: 'b', version: '1.0.0'})
+          },
+          'c': {
+            'index.js': 'C',
+            'package.json': JSON.stringify({
+              name: 'c',
+              version: '1.0.0',
+              dependencies: { b: '^1.0.0' }
+            })
+          }
+        },
+        'package.json': JSON.stringify({name: 'main', version: '0.0.0'}),
+        'lerna.json': JSON.stringify({lerna: '2.0.0-beta.17', version: 'independent'})
+      },
+      git: {
+        allTags: [
+          {tag: 'a@1.0.0', hash: 'BREAK'},
+          {tag: 'b@1.0.0', hash: 'BREAK'},
+          {tag: 'c@1.0.0', hash: 'BREAK'}
+        ],
+        head: 'PATCH_B',
+        log: [{
+          message: 'fix: patch commit for b\n\naffects: b',
+          hash: 'PATCH_B',
+          date: '2015-08-22 12:01:42 +0200'
+        }, {
+          message: 'fix: patch commit for a\n\naffects: a',
+          hash: 'PATCH_A',
+          date: '2015-08-22 12:01:42 +0200'
+        }, {
+          message: 'fix: a, b, c\n\naffects: a, b, c\n\nBREAKING CHANGE: this is an already released breaking change, for testing',
+          hash: 'BREAK',
+          date: '2015-08-22 12:01:42 +0200',
+          tags: '1.0.0'
+        }]
+      },
+      npm: packageVersions,
+      lerna: packageVersions
+    });
+  });
+
+  afterEach(function () {
+    io.restore();
+  });
+
+  describe('executing', function() {
+    beforeEach(function (done) {
+      pre({
+        io: io,
+        callback: done
+      });
+    });
+
+    it('should set the npm version 2 times', function () {
+      expect(io.npm.version.innerTask.callCount).to.equal(2);
+    });
+
+    it('should make 2 git commits', function () {
+      expect(io.git.commit.innerTask.callCount).to.equal(2);
+      expect(isPatchReleaseCommit(io.git.commit.firstCall.args[0], {name: 'a', releaseHash: 'PATCH_B', version: '1.0.1'})).to.equal(true);
+      expect(isPatchReleaseCommit(io.git.commit.secondCall.args[0], {name: 'b', releaseHash: 'PATCH_B', version: '1.0.1'})).to.equal(true);
+    });
+
+    it('should update dependency version in package a', function () {
+      expect(JSON.parse(io.fs.readFileSync('./packages/a/package.json')).dependencies.b).to.equal('^1.0.1');
+    });
+
+    it('should NOT update dependency version in package c', function () {
+      expect(JSON.parse(io.fs.readFileSync('./packages/c/package.json')).dependencies.b).to.equal('^1.0.0');
+    });
+  });
+});
+
 describe('pre with a private package', function() {
   beforeEach(function () {
     var packageVersions = {

@@ -16,15 +16,15 @@ module.exports = function forEachPackage (tasks, options, done) {
     return function (next) {
       var contextBoundTasks = bindTasks(tasks, Object.assign({}, extraContext, {packagePath: packagePath}), packagePath);
 
-      asyncType(contextBoundTasks, function (err) {
+      asyncType(contextBoundTasks, function (err, result) {
         err && log.error(err);
-        next();
+        next(null, result);
       });
     }
   });
 
-  async.series(tasksToRunInEachPackage, function (err) {
+  async.series(tasksToRunInEachPackage, function (err, results) {
     err && log.error(err);
-    done && done();
+    done && done(null, results);
   });
 };
