@@ -8,7 +8,7 @@ module.exports = function (pluginConfig, _ref, cb) {
   const revParse = pluginConfig.revParse;
   const tagList = pluginConfig.tagList;
 
-  if (pkg.private) {
+  if (pkg.private || process.env.GET_LAST_RELEASE_FROM_TAGS) {
     log.info('Package', pkg.name, 'is marked as private, doing last version calculation locally');
     const version = pkg.version;
     const versionTag = tagging.lerna(pkg.name, version);
