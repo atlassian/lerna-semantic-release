@@ -28,7 +28,7 @@ See the [commitizen-cli](https://github.com/commitizen/cz-cli) docs for more det
 
 ### Setting up the build
 
-You'll need to set up your build in such a way that tags and commits can be pushed back to the repository. This is so that lerna can stay in sync with the NPM releases.
+You'll need to set up your build in such a way that tags and commits can be pushed back to the repository. This is so that lerna can stay in sync with the npm releases.
 
 You'll also need to set the `NPM_TOKEN` environment variable so that npm can run `npm publish` on your components.
 
