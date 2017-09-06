@@ -4,7 +4,7 @@ var simpleGit = require('simple-git');
 
 module.exports = {
   tag: function tag (tag, message) {
-    return execAsTask('git tag -am"' + message + '" ' + tag)
+    return execAsTask('git tag -afm"' + message + '" ' + tag)
   },
   tagDelete: function tagDelete (tags) {
     return execAsTask('git tag -d ' + tags.join(' '))
