@@ -25,7 +25,7 @@ module.exports = {
       if (thisPackage.indexOf('@') === -1 || thisPackage.lastIndexOf('@') === 0) {
         return thisPackage === packageName;
       }
-      return thisPackage.substring(0, thisPackage.lastIndexOf('@')) === packageName;
+      return false;
     }));
   },
   getAffectedPackages: function (affectsLine) {
