@@ -21,6 +21,7 @@ module.exports = function (pluginConfig, _ref, cb) {
       }
 
       revParse([versionTag], function (err, versionGitHead) {
+        versionGitHead = versionGitHead && versionGitHead.split('\n')[0];
         log.info(versionGitHead);
         cb(err, {
           version: version,
