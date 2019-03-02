@@ -1,12 +1,12 @@
 sudo: false
 language: node_js
+node_js:
+  - 9
 cache:
   directories:
     - node_modules
 notifications:
   email: false
-node_js:
-  - "5"
 before_install: .travis/before_install.sh
 after_success: .travis/after_success.sh
 script: npm run lint && npm test

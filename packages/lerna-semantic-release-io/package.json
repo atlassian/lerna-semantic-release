@@ -14,7 +14,7 @@
     "shelljs": "~0.7.0",
     "simple-git": "~1.48.0",
     "mockery": "~1.7.0",
-    "mock-fs": "~3.11.0",
+    "mock-fs": "4.8.0",
     "sinon": "~1.17.0"
   },
   "peerDependencies": {
