@@ -32,10 +32,10 @@
   "license": "MIT",
   "devDependencies": {
     "commitizen": "^2.9.5",
-    "cz-lerna-changelog": "1.2.1",
+    "cz-lerna-changelog": "2.0.2",
     "eslint": "^3.14.1",
     "husky": "^0.13.1",
-    "lerna": "2.0.0-beta.34",
+    "lerna": "3.15.0",
     "lerna-semantic-release": "^9.0.1",
     "validate-commit-msg": "^2.11.1"
   },
