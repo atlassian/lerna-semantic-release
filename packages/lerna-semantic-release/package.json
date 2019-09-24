@@ -22,7 +22,7 @@
     "meow": "^3.7.0"
   },
   "peerDependencies": {
-    "lerna": "^2.0.0-beta.31"
+    "lerna": "3.15.0"
   },
   "engines": {
     "node": ">=4",
@@ -54,5 +54,5 @@
   "release": {
     "branch": "caribou"
   },
-  "version": "9.1.0"
+  "version": "9.1.4"
 }

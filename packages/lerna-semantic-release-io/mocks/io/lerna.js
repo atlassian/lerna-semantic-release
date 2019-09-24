@@ -11,12 +11,13 @@ module.exports = {
   getAllPackages: function () {
     var state = module.exports._state;
     var names = Object.keys(state.versions);
-    return names.map(function (name) {
+    var packages = names.map(function (name) {
       return {
         name: name,
         location: path.join('packages', name),
         version: state.versions[name]
       };
     });
+    return Promise.resolve(packages);
   }
 };

@@ -8,23 +8,26 @@ module.exports = function forEachPackage (tasks, options, done) {
   var asyncType = (options && options.asyncType) || async.series;
   var packages = options.allPackages;
 
-  var packageLocations = packages.map(function (pkg) {
-    return pkg.location;
+  packages.then(pkgs => {
+    var packageLocations = pkgs.map(function (pkg) {
+      return pkg.location;
+    });
+
+    var tasksToRunInEachPackage = packageLocations.map(function (packagePath) {
+      return function (next) {
+        var contextBoundTasks = bindTasks(tasks, Object.assign({}, extraContext, {packagePath: packagePath}), packagePath);
+
+        asyncType(contextBoundTasks, function (err) {
+          err && log.error(err);
+          next();
+        });
+      }
+    });
+
+    async.series(tasksToRunInEachPackage, function (err) {
+      err && log.error(err);
+      done && done();
+    });
   });
 
-  var tasksToRunInEachPackage = packageLocations.map(function (packagePath) {
-    return function (next) {
-      var contextBoundTasks = bindTasks(tasks, Object.assign({}, extraContext, {packagePath: packagePath}), packagePath);
-
-      asyncType(contextBoundTasks, function (err) {
-        err && log.error(err);
-        next();
-      });
-    }
-  });
-
-  async.series(tasksToRunInEachPackage, function (err) {
-    err && log.error(err);
-    done && done();
-  });
 };
