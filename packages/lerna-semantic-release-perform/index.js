@@ -80,17 +80,19 @@ function getUpdatedPackages (done) {
   var allPackages = this.io.lerna.getAllPackages();
   var npm = this.io.npm;
 
-  async.parallel(allPackages.map(function (pkg) {
-    return function getLatestVersion (done) {
-      isPackageUpdated(pkg, npm, done);
-    }
-  }), function gotLatestVersions (err, results) {
-    var updatedPackages = results.filter(function (result) {
-      return result.updated;
-    }).map(function (result) {
-      return result.pkg;
+  allPackages.then(allPkgs => {
+    async.parallel(allPkgs.map(function (pkg) {
+      return function getLatestVersion (done) {
+        isPackageUpdated(pkg, npm, done);
+      }
+    }), function gotLatestVersions (err, results) {
+      var updatedPackages = results.filter(function (result) {
+        return result.updated;
+      }).map(function (result) {
+        return result.pkg;
+      });
+      done(null, updatedPackages);
     });
-    done(null, updatedPackages);
   });
 }
 

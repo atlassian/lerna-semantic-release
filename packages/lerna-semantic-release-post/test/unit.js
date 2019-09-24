@@ -148,8 +148,8 @@ describe('post', function() {
         var changeLog = fs.readFileSync('./packages/a/CHANGELOG.md').toString();
         expect(countOccurrences(changeLog, /<a name=/g)).to.equal(3);
         expect(countOccurrences(changeLog, /\* fix:/g)).to.equal(2);
-        expect(countOccurrences(changeLog, /## 0.0.2/g)).to.equal(2);
-        expect(countOccurrences(changeLog, /## 0.0.1/g)).to.equal(1);
+        expect(countOccurrences(changeLog, /##\D+0.0.2/g)).to.equal(2);
+        expect(countOccurrences(changeLog, /##\D+0.0.1/g)).to.equal(1);
         expect(countOccurrences(changeLog, /\* fix: b/g)).to.equal(0);
       });
 
