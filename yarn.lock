@@ -18,7 +18,7 @@
 
 "@semantic-release/error@^1.0.0":
   version "1.0.0"
-  resolved "http://registry.npmjs.org/@semantic-release/error/-/error-1.0.0.tgz#bb8f8eeedd5c7f8c46f96b37ef39e1b8c376c1cc"
+  resolved "https://registry.npmjs.org/@semantic-release/error/-/error-1.0.0.tgz#bb8f8eeedd5c7f8c46f96b37ef39e1b8c376c1cc"
 
 "@semantic-release/last-release-npm@^1.2.1", "@semantic-release/last-release-npm@~1.2.1":
   version "1.2.1"
@@ -2385,8 +2385,8 @@ path-object@^2.3.0:
     lodash.assign "^3.0.0"
 
 path-parse@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
 
 path-type@^1.0.0:
   version "1.1.0"
